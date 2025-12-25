@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfólio Profissional - César</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --primary: #ff6600; /* Itaú */
+      --accent: #1a2e5a; /* Safra */
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #020617;
+        --card: #0b1220;
+        --muted: #9ca3af;
+      }
+      body { font-family: Inter, Arial, sans-serif; margin: 0; padding: 0; background: #e5e7eb; color: #020617; }
+      header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 48px 16px 64px 16px;
+      text-align: center;
+      position: relative;
+    }
+      .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 32px rgba(0,0,0,.12);
+      transition: transform .2s ease, box-shadow .2s ease;
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    }
+
+    * { box-sizing: border-box; }
+
+    body { font-family: Inter, Arial, sans-serif; margin: 0; padding: 0; background: #f3f4f6; color: #020617; }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 48px 16px;
+      text-align: center;
+    }
+
+    header h1 { font-size: 2rem; margin-bottom: 8px; }
+    header p { color: #e5e7eb; }
+
+    section { padding: 28px 16px; max-width: 1100px; margin: 0 auto; }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      margin-bottom: 8px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,.06);
+      transition: transform .2s ease, box-shadow .2s ease;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,102,0,.18), rgba(26,46,90,.15));
+      opacity: .35;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 18px 32px rgba(0,0,0,.12);
+    }
+
+    .card:hover::before { opacity: 1; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: all .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .timeline {
+      position: relative;
+      margin-top: 24px;
+      padding-left: 20px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(var(--primary), var(--accent));
+      border-radius: 999px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 20px;
+      padding-left: 28px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 4px;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border: 4px solid var(--primary);
+      border-radius: 50%;
+    }
+
+    .timeline-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 14px 28px rgba(0,0,0,.16);
+      transition: transform .15s ease, box-shadow .2s ease;
+      border: 1px solid rgba(0,0,0,.08);
+    }
+
+    .timeline-card:hover { transform: translateX(4px); }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #ffedd5;
+      color: #9a3412;
+      border-radius: 999px;
+      font-size: 12px;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    ul { padding-left: 18px; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+  /* Theme toggle button */
+    .theme-toggle {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.4);
+      background: rgba(0,0,0,.25);
+      color: #fff;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      font-size: 13px;
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .theme-toggle:hover { opacity: .9; transform: translateY(-1px); }
+
+    /* Dark mode manual toggle */
+    body.dark {
+      background: #020617;
+      color: #e5e7eb;
+    }
+    body.dark .card, body.dark .timeline-card {
+      background: #0f172a;
+      border-color: #1f2937;
+      box-shadow: 0 16px 32px rgba(0,0,0,.55);
+    }
+    body.dark header { background: linear-gradient(135deg, #020617, #0b1220); }
+    body.dark .badge { background: #111; color: #facc15; }
+
+    /* Profile image */
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,.7);
+      margin: 12px auto 0 auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    /* SVG icon wrappers */
+    .section-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Accessible high-contrast cards for highlighted sections */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.12);
+      box-shadow: 0 20px 34px rgba(0,0,0,.14);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 40px rgba(0,0,0,.18);
+    }
+
+    /* Stronger contrast timelines */
+    .timeline-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(0,0,0,.14);
+      box-shadow: 0 18px 36px rgba(0,0,0,.16);
+    }
+
+    /* Dark mode equivalents */
+    body.dark .card,
+    body.dark .timeline-card {
+      background: #0b1220;
+      border-color: #334155;
+      box-shadow: 0 26px 46px rgba(0,0,0,.65);
+    }
+    body.dark .card::after {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    /* Section-specific visibility boost */
+    section:nth-of-type(3) .card, /* Experiência */
+    section:nth-of-type(4) .card, /* Formação */
+    section:nth-of-type(5) .card  /* Competências */
+    {
+      background: #fefefe;
+      border-color: rgba(0,0,0,.18);
+    }
+
+    body.dark section:nth-of-type(3) .card,
+    body.dark section:nth-of-type(4) .card,
+    body.dark section:nth-of-type(5) .card {
+      background: #020617;
+      border-color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="theme-toggle" id="themeToggle">Alternar tema</button>
+    <h1>César de Moura Almeida</h1>
+    <p>Desenvolvedor Android | Java | Kotlin | Black Belt LSS | Métodos Ágeis</p>
+    <!-- Foto de perfil - substitua o src pela sua foto se desejar -->
+    <img class="avatar" src="/mnt/data/IMG_20221208_104219 (2).jpg" alt="Foto de perfil de César" />
+  </header>
+
+  <section>
+    <h2>Sobre mim</h2>
+    <p>Desenvolvedor Android com experiência em Java e Kotlin, com atuação em engenharia de confiabilidade, governança de TI e práticas ágeis. Técnico em Mecatrônica, bacharel em Ciência da Computação e cursando pós-graduação em Engenharia de Software. Possui perfil investigativo e orientado a aprender profundamente sobre os temas em que atua, com alta motivação para participação e entrega de projetos de impacto.</p>
+  </section>
+
+  <section>
+    <h2>
+      <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a3 3 0 0 1 3 3v3H2V9a3 3 0 0 1 3-3h3V4a2 2 0 0 1 2-2Zm2 4h2V4h-4v2h2Zm-10 8h20v5a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3v-5Z"/></svg>
+      Experiência Profissional
+    </h2>
+
+    <div class="cards-grid">
+
+      <div class="card">
+        <h3>🔧 Itaú Unibanco — Analista de Engenharia de TI Sênior</h3>
+        <span class="badge">2025 – Atual</span>
+        <p>Engenharia de TI com foco em confiabilidade, governança e qualidade, apoiando iniciativas estratégicas.</p>
+      </div>
+
+      <div class="card">
+        <h3>🧭 Itaú Unibanco — Tech Lead</h3>
+        <span class="badge">2024 – Atual</span>
+        <p>Liderança técnica, decisões arquiteturais e mentoria para times de engenharia.</p>
+      </div>
+
+      <div class="card">
+        <h3>🛠 Itaú Unibanco — Analista de Engenharia de TI Pleno</h3>
+        <span class="badge">2024 – 2025</span>
+        <p>Iniciativas de plataforma e automação, com foco em melhoria contínua.</p>
+      </div>
+
+      <div class="card">
+        <h3>📱 Banco Safra — Analista Júnior Android</h3>
+        <span class="badge">2022 – 2024</span>
+        <p>Desenvolvimento nativo Android e criação de app whitelabel escalável.</p>
+      </div>
+
+      <div class="card">
+        <h3>🚀 Banco Safra — Estagiário</h3>
+        <span class="badge">2020 – 2022</span>
+        <p>Backend em C# e posteriormente Android nativo com Kotlin e Java.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm0 13L5.45 12.62 4 13.38 12 18l8-4.62-1.45-.76L12 16Z"/></svg>
+      Formação Acadêmica
+    </h2>
+    <div class="cards-grid">
+
+      <div class="card">
+        <h3>MBA USP/ESALQ</h3>
+        <span class="badge">Engenharia de Software</span>
+        <p>2024 – 2026</p>
+      </div>
+
+      <div class="card">
+        <h3>SPTech — Ciência da Computação</h3>
+        <span class="badge">Bacharelado</span>
+        <p>2020 – 2023</p>
+      </div>
+
+      <div class="card">
+        <h3>ETEC Jorge Street</h3>
+        <span class="badge">Técnico em Mecatrônica</span>
+        <p>2017 – 2019</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4v4h4V3Zm-5 0h-4v4h4V3ZM4 3h4v4H4V3Zm0 5h4v4H4V8Zm0 5h4v4H4v-4Zm5 0h4v4H9v-4Zm5 0h4v4h-4v-4ZM9 8h4v4H9V8Zm5 0h4v4h-4V8Zm0 9h4v4h-4v-4ZM9 17h4v4H9v-4Z"/></svg>
+      Principais Competências
+    </h2>
+    <div class="cards-grid">
+
+      <div class="card"><h3>🖥 Desenvolvimento Android</h3><p>Java e Kotlin, apps nativos e whitelabel.</p></div>
+      <div class="card"><h3>⚙ Governança de TI</h3><p>Processos, controles e boas práticas.</p></div>
+      <div class="card"><h3>📊 Quality Monitoring</h3><p>Métricas, indicadores e melhoria contínua.</p></div>
+      <div class="card"><h3>🌐 SRE</h3><p>Confiabilidade, escalabilidade e observabilidade.</p></div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h9a3 3 0 0 1 3 3v14.5a.5.5 0 0 1-.79.41L12 17.5l-5.21 2.41A.5.5 0 0 1 6 19.5V2Z"/></svg>
+      Publicações
+    </h2>
+    <div class="cards-grid">
+      <div class="card">
+        <h3>🧠 CNN e Visão Computacional</h3>
+        <p>Dental Calculus Recognition in Dental Images Using CNN</p>
+        <span class="badge">Deep Learning</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2 4h20v16H2V4Zm10 7L4.5 6h15L12 11Zm-7.5 7h15V8.24l-7.06 4.71a1 1 0 0 1-1.08 0L4.5 8.24V18Z"/></svg>
+      Contato
+    </h2>
+    <div class="cards-grid">
+      <div class="card"><h3>📨 E-mail</h3><p>cesaralmeida268@gmail.com</p></div>
+      <div class="card"><h3>🔗 LinkedIn</h3><p>linkedin.com/in/césar-de-moura-almeida-9ba7851a0</p></div>
+      <div class="card"><h3>📍 Localização</h3><p>São Caetano do Sul, São Paulo, Brasil</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>
+      <svg class="section-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5h18v2H3V5Zm4 6h10v2H7v-2Zm-4 6h18v2H3v-2Z"/></svg>
+      Linha do Tempo da Carreira
+    </h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <h3>🔧 Itaú Unibanco — Analista de Engenharia de TI Sênior</h3>
+          <span class="badge">2025 – Atual</span>
+          <p>Confiabilidade e governança de TI.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <h3>🧭 Itaú Unibanco — Tech Lead</h3>
+          <span class="badge">2024 – Atual</span>
+          <p>Liderança técnica e decisões arquiteturais.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <h3>🛠 Analista de Engenharia de TI Pleno</h3>
+          <span class="badge">2024 – 2025</span>
+          <p>Automação e engenharia de plataformas.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <h3>📱 Banco Safra — Analista Jr Android</h3>
+          <span class="badge">2022 – 2024</span>
+          <p>Apps nativos Android e whitelabel.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-card">
+          <h3>🚀 Banco Safra — Estagiário</h3>
+          <span class="badge">2020 – 2022</span>
+          <p>Backend em C# e Android nativo.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<footer>
+    <p>© 2025 César — Portfólio Profissional</p>
+  </footer>
+
+  <script>
+    // Scroll reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.card, .timeline-card').forEach(el => {
+      el.classList.add('reveal');
+      observer.observe(el);
+    });
+  // Theme toggle logic with persistence
+    const toggleBtn = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') document.body.classList.add('dark');
+
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Scroll reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.card, .timeline-card').forEach(el => {
+      el.classList.add('reveal');
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
